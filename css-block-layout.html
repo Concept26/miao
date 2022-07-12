@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body{margin: 0;}
+    section.a{background-color: black;min-width: 600px;}
+    .a p{
+      width: 600px;
+      margin:auto;
+      color: aliceblue;
+    }
+    .b {
+      width: 600px;
+      margin: auto;
+      margin-top: 15px;
+    }
+    .c {
+      width: 600px;
+      margin: 0 auto;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+    .c div{
+      width: 180px;
+      height: 40px;
+      border: 3px solid;
+      background-color: pink;
+      box-sizing: border-box;
+      margin-top: 15px;
+      line-height: 34px;
+      text-align: center;
+    }
+    .c div:hover{
+      background-color: red;
+    }
+    .c div:nth-child(n+5){
+      margin-left: 210px;
+    }
+    .c div:nth-child(n+9){
+      margin-left: 420px;
+    }
+    .c div:nth-child(4n+5){
+      margin-top: -205px;
+    }
+    .p1{
+      border-bottom: 1px dotted;
+      padding-top: 1px;
+      width: 600px;
+      margin: auto;
+      margin-bottom: -1px;
+    }
+    .p{
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .d{
+      text-align: center;
+      background-color: orchid;
+    }
+  </style>
+</head>
+<body>
+  <section class="a"><p>hellow word 请调整浏览器窗口大小查看效果 hellow word 请调整浏览器窗口大小查看效果 hellow word 请调整浏览器窗口大小查看效果 hellow word 请调整浏览器窗口大小查看效果 hellow word 请调整浏览器窗口大小查看效果 hellow word 请调整浏览器窗口大小查看效果 hellow word 请调整浏览器窗口大小查看效果 </p></section>
+  <p class="b">
+    页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 
+  </p>
+  <div class="c">
+    <div>宽180高40</div>
+    <div>水平间隙30px</div>
+    <div>垂直间隙15px</div>
+    <div>边框宽度3px</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+  </div>
+  <section class="p">
+    <p class="p1">link</p>
+    <p class="p1">link</p>
+    <p class="p1">link</p>
+    <p class="p1">link</p>
+    <p class="p1">link</p>
+  </section>
+  <p class="d">©版权所有<br>
+    本页所有布局均使用块元素</p>
+</body>
+</html>

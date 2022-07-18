@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body{margin: 0;xbackground-color: #1e1e1e;color: #b1b1b1;}
+    .top-logo{vertical-align: middle;display: inline-block;margin: 10px;margin-left: 20px;}
+    header{
+      background-color: #fafafa;
+      opacity: 0.9;
+      font: bold large sans-serif;
+      position: relative;
+      z-index: 999;
+    }
+    ul li{
+      padding: 10px;
+    }
+    .m-file{
+      position: relative;
+      display: inline-block;
+      margin-right: 15px;
+      margin-left: 15px;
+      line-height: 40px;
+      font;
+    }
+    .m-file:hover > ul{
+      display: block;
+    }
+    .file-chil:hover > .file-chil{
+      display: block;
+      color: #b1b1b1;
+    }
+    ul.file{
+      list-style: none;
+      display: none;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      left: 0;
+      top: 100%;
+      white-space: nowrap;
+      background-color: #fafafa;
+      width: 200px;
+      border-radius: 9px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgb(0 0 0 / 58%);
+      padding-left: 20px;
+      padding-right: 20px;
+      font: normal large sans-serif;
+      line-height: 2.5em;
+    }
+    ul.file-chil{
+      list-style: none;
+      display: none;
+      margin: 0;
+      position: absolute;
+      left: 90%;
+      top: 90%;
+      white-space: nowrap;
+      background-color: #fafafa;
+      width: 200px;
+      border-radius: 9px;
+      padding: 10px;
+      box-shadow: 0 0 5px rgb(0 0 0 / 58%);
+      padding-left: 20px;
+      padding-right: 20px;
+      font: normal large sans-serif;
+      line-height: 2.5em;
+    }
+    div.book-sj , div.music-yy{
+      display: inline-block;
+      line-height: 40px;
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+    ul.book-ul , ul.book-wd , ul.muc-ul{
+      display: none;
+      list-style: none;
+      position: absolute;
+      background-color: #fafafa;
+      width: 200px;
+      border-radius: 9px;
+      box-shadow: 0 0 5px rgb(0 0 0 / 58%);
+      font: normal large sans-serif;
+      line-height: 2.5em;
+      padding: 20px;
+      margin: 0;
+    }
+    ul.book-ul{
+      top: 75%;
+    }
+    ul.book-wd{
+      left:85%;
+      top: 75%;
+    }
+    div.book-sj:hover > ul{
+      display: block;
+    }
+    li.book-sec:hover > ul{
+      display: block;
+      color: #b1b1b1;
+    }
+    ul > li:hover{
+      background-color: #00b4aa;
+      color: black;
+      border-radius: 5px;
+    }
+    div.music-yy:hover > ul{
+      display: block;
+    }
+
+    video{
+      position: absolute;
+        top: -9999px;
+        bottom: -9999px;
+        left: -9999px;
+        right: -9999px;
+        margin: auto;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;  
+        z-index: -2;
+    }
+
+    div.centervi{
+      position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .centervi:before {
+      background-image: url(https://s2.loli.net/2022/07/17/9xKZd8bieIMjmso.gif) ;
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: -1;
+        background-attachment: fixed;
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <img class="top-logo" src="https://s2.loli.net/2022/07/17/EkSl78wJtVOMXKQ.png" height="70px">
+    <div class="m-file">动画
+      <ul class="file first">
+        <li>排行榜</li>
+        <li>每日放送</li>
+        <li>动画标签</li>
+        <li>分类浏览</li>
+        <li>动画日志</li>
+        <li class="file-chil">我看
+          <ul class="file-chil">
+            <li>在看</li>
+            <li>想看</li>
+            <li>看过</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="book-sj">书籍
+      <ul class="book-ul first">
+        <li>排行榜</li>
+        <li>图书标签</li>
+        <li>分类浏览</li>
+        <li>图书日志</li>
+        <li class="book-sec second">我读
+          <ul class="book-wd">
+            <li>在读</li>
+            <li>想读</li>
+            <li>读过</li>
+            <li>搁置</li>
+            <li>抛弃</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="music-yy">音乐
+      <ul class="first muc-ul">
+        <li>排行榜</li>
+        <li>音乐标签</li>
+        <li>浏览全部</li>
+        <li>音乐日志</li>
+      </ul>
+    </div>
+  </header>
+  <div class="centervi">
+    <video src="https://g.us.sinaimg.cn/o0/kREdUzvAlx07XFDHFhfG010412001c0K0E010.mp4?ssig=m%2BGNVOMiQk&Expires=1658060140&KID=unistore,video" autoplay loop muted></video>
+  </div>
+</body>
+</html>

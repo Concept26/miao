@@ -107,6 +107,29 @@
     background-color: pink;
     font-size:medium;
   }
+  .flex_layout{
+    display: flex;
+    width: 600px;
+    height: 195px;
+    margin: auto;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+  .flex_layout div{
+    width: 180px;
+    height: 40px;
+    border: 3px solid;
+    box-sizing: border-box;
+    text-align: center;
+    text-align-last: center;
+    line-height: 34px;
+    background-color: pink;
+    font-size:medium;
+  }
   </style>
 </head>
 <body>
@@ -116,6 +139,20 @@
   <p class="b">
     页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px <div class=center-1><p><img src="https://s2.loli.net/2022/07/12/Y4tpgvROaxqnEyK.jpg"></p></div>
   </p>
+  <div class="flex_layout">
+    <div>宽180高40</div>
+    <div>水平间隙30px</div>
+    <div>垂直间隙15px</div>
+    <div>边框宽度3px</div>
+    <div>产品</div> 
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+  </div>
   <div class="fn">
     <div class="rt"></div>
     <div class="hn">
@@ -125,7 +162,7 @@
     </div>
     <div class="rt"></div>
     <div class="rt"></div>
-    <div class="hn">w
+    <div class="hn">
       <span class="hl">水平间隙30</span>
       <span class="hl">产品</span>
       <span class="hl">产品</span>

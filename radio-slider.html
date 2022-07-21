@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style>
+    html{width: 100%;}
+    body {width: 100%;padding: 0;margin: 0;}
+    .bac{
+      height: 100vw;
+      width: 75vw;
+      background-size: 1500px auto;
+      /* background-attachment: fixed; */
+      background-position:center; 
+      background-repeat:no-repeat;
+      position: absolute;
+      transition: top 0.5s 1s, background-size 0.5s 1s;
+      top: 100%;
+      z-index: 2;
+    }
+    .bac-1{
+      background-image: url(https://s2.loli.net/2022/07/20/XE6LNVUtqwpPuCO.webp);
+    }
+    .bac-2{
+      background-image:url(https://s2.loli.net/2022/07/20/U2Cs4vJlQY3E5oR.webp);
+    }
+    .bac-3{
+      background-image:url(https://s2.loli.net/2022/07/20/Lnl19qosQhHxOAZ.webp);
+    }
+    .window{
+      height: 100vw;
+      width: 75vw;
+      min-width: 450px;
+      min-height: 600px;
+      overflow: hidden;
+      position: relative;
+      margin-left: 50px;
+    }
+    .window div{min-height: 600px;min-width: 450px;}
+    input{
+      display: none;
+    }
+    input:nth-child(1):checked ~ div div:nth-child(1){
+      transition: top 1s, background-size 1s 0.8s;
+      top: 0%;
+      z-index: 99;
+      background-size: 100% auto;
+    }
+    input:nth-child(2):checked ~ div div:nth-child(2){
+      transition: top 1s, background-size 1s 0.8s;
+      top: 0%;
+      z-index: 99;
+      background-size: 100% auto;
+    }
+    input:nth-child(3):checked ~ div div:nth-child(3){
+      transition: top 1s, background-size 1s 0.8s;
+      top: 0%;
+      z-index: 99;
+      background-size: 100% auto;
+    }
+    input:nth-child(1):checked ~ aside .naaddiv_1{
+      opacity: 1;
+    }
+    input:nth-child(2):checked ~ aside .naaddiv_2{
+      opacity: 1;
+    }
+    input:nth-child(3):checked ~ aside .naaddiv_3{
+      opacity: 1;
+    }
+    .bar label , .bar div{
+      display: block;
+      width: 100px;
+      height: 50px;
+      z-index: 999;
+    }
+    .bar div{
+      opacity: 0.5;
+      background-color: black;
+    }
+    .bar div:hover{
+      opacity: 0.8;
+    }
+    .naaddiv_1{
+      background-image: url(https://s2.loli.net/2022/07/20/3CkDRHu1wP4Ltvn.jpg);
+      background-size: 100px auto;
+    }
+    .naaddiv_2{
+      background-image: url(https://s2.loli.net/2022/07/20/nTjBlUteIvqPd7J.jpg);
+      background-size: 100px auto;
+    }
+    .naaddiv_3{
+      background: url(https://s2.loli.net/2022/07/20/pnM8lhAFuU6Cqxi.jpg);
+      background-size: 100px auto;
+    }
+    div.nvtxt{
+      background: url(https://s2.loli.net/2022/07/21/2fOSP7jdCunwXEx.png);
+      opacity: 1;
+      width: 50px;
+      height: 578px;
+      background-size: 50px auto;
+    }
+    .bar{
+      position: absolute;
+      top: 0px;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <input type="radio" name="radio1" id="rad-1" checked="checked">
+  <input type="radio" name="radio1" id="rad-2">
+  <input type="radio" name="radio1" id="rad-3">
+  <aside class="bar">
+    <label calss="rad1" for="rad-1"><div class="naaddiv_1"></div></label>
+    <label calss="rad2" for="rad-2"><div class="naaddiv_2"></div></label>
+    <label calss="rad3" for="rad-3"><div class="naaddiv_3"></div></label>
+    <div class="nvtxt"></div>
+  </aside>
+  <div class="window">
+    <div class="bac bac-1"></div>
+    <div class="bac bac-2"></div>
+    <div class="bac bac-3"></div>
+  </div>
+</body>
+</html>

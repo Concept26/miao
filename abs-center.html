@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+
+    .box {
+      height: 460px;
+      width: 100%;
+      margin: auto;
+    }
+
+    h2{
+      display: block;
+      margin: auto;
+      text-align: center;
+    }
+
+    .area {
+      resize: both;
+      overflow: auto;
+      height: 400px;
+      max-height: 450px;
+      width: 400px;
+      max-width: 450px;
+      min-width: 329px;
+      min-height: 239px;
+      box-shadow: 0px 1px 11px rgb(0 0 0 / 30%);
+      margin: auto;
+    }
+
+    img {
+      height: 200px;
+      width: 200px;
+      background-color: pink;;
+    }
+
+    .area-1 {
+      position: relative;
+    }
+
+    .img1 {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0px 1px 11px #eea1ff;
+    }
+
+    .area-1 span,
+    .area-2 span,
+    .area-3 span {
+      position: absolute;
+      display: block;
+      left: 50%;
+      top: 90%;
+      transform: translate(-50%, 0%);
+    }
+
+    .area-2 {
+      position: relative;
+      margin: auto;
+    }
+
+    .area-2 span {}
+
+    .img2 {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      box-shadow: 0px 1px 11px #23cd64;
+      margin: auto;
+    }
+
+    .area-3 {
+      align-items: center;
+      display: flex;
+      position: relative;
+      justify-content: center;
+    }
+
+    .area-3 span {
+      align-items: flex-end;
+    }
+
+    .img3 {
+      box-shadow: 0px 1px 11px #e84090;
+    }
+
+    .box-4 {
+      display: table;
+      height: auto;
+      width:auto;
+      margin-bottom: 100px;
+    }
+
+    .area-4 {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      
+    }
+
+    .img4 {
+      display: inline-block;
+      box-shadow: 0px 1px 11px #b270dd;
+    }
+
+    .area-5{
+      display: table;
+    }
+    .img5 {
+      display: table-cell; 
+      margin: auto;
+      margin: calc(50% - 100px);
+      box-shadow: 0px 1px 11px #f698c3;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>position + translate</h2>
+  <div class="box box-1">
+    <div class="area area-1">
+      <img class="img1" src="https://i.postimg.cc/ZYgYdDVL/93738727-p8.webp" alt="">
+    </div>
+  </div>
+  <h2>position + margin</h2>
+  <div class="box box-2">
+    <div class="area area-2">
+      <img class="img2" src="https://i.postimg.cc/nhmn6CXm/93738727-p9.webp" alt="">
+    </div>
+  </div>
+  <h2>flex</h2>
+  <div class="box box-3">
+    <div class="area area-3">
+      <img class="img3" src="https://i.postimg.cc/rmmjj82P/93738727-p10.webp" alt="">
+    </div>
+  </div>
+  <h2>table-cell</h2>
+  <div class="box box-4">
+    <div class="area area-4">
+      <img class="img4" src="https://i.postimg.cc/Jns27FWy/93738727-p6.webp" alt="">
+    </div>
+  </div>
+  <h2>table</h2>
+  <div class="box box-5">
+    <div class="area area-5">
+      <img class="img5" src="https://i.postimg.cc/SxK7pM4R/93738727-p7.webp" alt="">
+    </div>
+  </div>
+</body>
+</html>

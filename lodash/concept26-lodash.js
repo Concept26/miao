@@ -14,8 +14,8 @@ var concept26 = {
     return result
   },
 
-  
-  compact: function (arry) { //创建一个新数组，包含原数组中所有的非假值元素。
+  //创建一个新数组，包含原数组中所有的非假值元素。
+  compact: function (arry) { 
     let result = []
     for (let i = 0; i < arry.length; i++) {
       if (arry[i]) result.push(arry[i]) // if判断中，false, null,0, "", undefined,NaN 都为 false

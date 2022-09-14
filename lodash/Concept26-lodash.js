@@ -1,4 +1,3 @@
 var concept26 = {
   
-
 }

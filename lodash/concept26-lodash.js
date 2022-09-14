@@ -1,7 +1,7 @@
 var concept26 = {
 
-  // 将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。
-  chunk: function (arry, size = 1) {
+  
+  chunk: function (arry, size = 1) { // 将数组（array）拆分成多个 size 长度的区块，并将这些区块组成一个新数组。
     let result = [], arr = []
     for (let i = 0; i < arry.length; i++) {
       arr.push(arry[i])
@@ -14,8 +14,8 @@ var concept26 = {
     return result
   },
 
-  //创建一个新数组，包含原数组中所有的非假值元素。
-  compact: function (arry) {
+  
+  compact: function (arry) { //创建一个新数组，包含原数组中所有的非假值元素。
     let result = []
     for (let i = 0; i < arry.length; i++) {
       if (arry[i]) result.push(arry[i]) // if判断中，false, null,0, "", undefined,NaN 都为 false
@@ -23,8 +23,8 @@ var concept26 = {
     return result
   },
 
-  //即创建一个新数组，这个数组中的值，为第一个数组（array 参数）排除了给定数组中的值
-  difference: function (arry, ...values) {
+ 
+  difference: function (arry, ...values) {  //即创建一个新数组，这个数组中的值，为第一个数组（array 参数）排除了给定数组中的值
     let diff = [], map = {}, result = []
     diff.push(...values)
     diff = diff.flat()
@@ -59,8 +59,8 @@ var concept26 = {
   //   return result
 // },
   
-  // 使用 value 值来填充（替换） array，从start位置开始, 到end位置结束（但不包含end位置）
-  fill: function (array, value, start = 0, end) {
+  
+  fill: function (array, value, start = 0, end) { // 使用 value 值来填充（替换） array，从start位置开始, 到end位置结束（但不包含end位置）
     if (!end && !(end == 0)) end = array.length
     for (let i = start; i < end; i++) {
       array[i] = value
@@ -68,8 +68,8 @@ var concept26 = {
     return array
   },
 
-  // 创建一个切片数组，去除array前面的n个元素。（n默认值为1。）
-  drop: function (arry, n = 1){
+  
+  drop: function (arry, n = 1){ // 创建一个切片数组，去除array前面的n个元素。（n默认值为1。）
     if (n > arry.length) {
       return []
     } else if (n == 0) {

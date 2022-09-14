@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>画图</title>
+  <style>
+    canvas {
+      border: 2px solid #f0f;
+      display: block;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <canvas width="500" height="400"></canvas>
+</body>
+<script>
+  var canvas = document.querySelector('canvas')
+  canvas.style.imageRendering = 'pixelated' //放大时的插帧方式：不插帧，直接放大像素
+  var ctx = canvas.getContext('2d')
+
+  function dot(x, y, color = 'black') {
+    x = Math.round(x)
+    y = Math.round(y)
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, 1, 1)
+  }
+  /**
+   * YOUR TASK
+      * 在 坐标 (42, 42) 画出一个点
+      * 画一条实线
+      * 画一条一个实点一个空点的虚线
+      * 画一条两个实点两个空点的虚线
+      * 画一条三个实点两个空点的虚线
+      * 画一条45度的斜线
+      * 画一条30度的斜线（与x轴或y轴的夹角呈30度）
+      * 画一条跨越画布左上角和右下角的对角线
+      * 画一个空心矩形
+      * 画一个实心矩形
+      * 画两个个空心的圆，居中：
+        * 一个半径为50像素
+        * 一个半径为200像素
+      * 画一个实心的圆，半径至少为100像素
+      * 画一个【大小合适】的sin(x)的图像
+
+      * 画出rgb色彩空间的某一面（尺寸要大于100x100）
+         'rgb(255,255,0)'
+         '#ff00ff'
+        如果做出上一题后，尝试将其每个点的坐标乘以一个矩阵（如(2,0,0,2)或(1,0.27得到新的位置，即绘制出被线性变幻后的色彩空间某一面
+        可以考虑如下几种矩阵：
+           2 0
+           0 2
+           ------
+           1  0.27
+           0  1
+           ------
+           0.5    0.87
+           -0.87  0.5
+
+   */
+</script>
+<script>
+  //在 坐标 (42, 42) 画出一个点
+  dot (42 , 42 , 'red') 
+
+  //画一条实线
+  for (var i = 1 ; i <= 50 ; i++){
+    dot (50 + i , 50 , 'black')
+  }
+
+  //画一条一个实点一个空点的虚线
+  for (var i = 1 ; i <= 50 ; i += 2){
+    dot (50 + i , 60 , 'black')
+  }
+
+  //画一条两个实点两个空点的虚线
+  for (var i = 1 ; i <= 50 ; i += 4){
+    dot (50 + i , 70 , 'black')
+    dot (50 + i + 1 , 70 , 'black')
+  }
+
+  //画一条三个实点两个空点的虚线
+  for (var i = 1 ; i <= 50 ; i += 5){
+    dot (50 + i , 80 , 'black')
+    dot (50 + i + 1 , 80 , 'black')
+    dot (50 + i + 2 , 80 , 'black')
+  }
+
+  ////画一条四个实点三个个空点的虚线
+  for (var x = 1 ; x <= 50 ; x++){
+    if (x % 7 <= 4){                  // 以7为周期，小于等于4则画点，大于4则不画点
+      dot (50 + x , 90 , 'black')
+    }
+  }
+  
+  //画一条45度的斜线
+  for (var x = 1 ; x <= 50 ; x++){
+    dot (50 + x , 100 + x, 'black')
+  }
+
+  //画一条30度的斜线（与x轴或y轴的夹角呈30度）
+  for (var x = 1 ; x <= 50 ; x++){        //斜线更贴近x轴，y随x改变
+    var y = x * Math.sqrt(3) / 3
+    dot (100 + x , 110 + y, 'black')
+  }
+  for (var y = 0; y < 50; y++) {          //斜线更贴近y轴，x随y改变
+    var x = y * Math.sqrt(3) / 3
+    dot(100 + x, 110 + y, 'red')
+  }
+
+  //画一条跨越画布左上角和右下角的对角线
+  for (var x = 1; x <= 500 ; x++){  // 斜率普通方法
+    var y = 0.8 * x 
+    dot (x , y ,'skyblue')
+  }
+
+  //画一条跨越画布左上角和右下角的对角线
+  //无浮点运算高效方法
+  var yy = 0  //累加y方向
+  var y = 0
+  var w = 500 //整体宽
+  var h = 400 //整体高
+  for (var x = 0; x < 500; x++){ 
+    yy += h                         //当x++，y方向累加一个整体高度
+    if (yy > w){                    //当y方向累加超过整体宽时,y++
+      y++                           //
+      yy -= w                      //y方向累加减去整体宽
+    }
+    dot (x + 2, y + 10, 'purple')
+  }
+
+  /* 例如一条线段，当x每增加1，y增加0.3，当x增加至4，y累加至1.2超过1进入下一行像素，此时记y增加1，并减1进入下一轮累加*/
+
+  // 给出起点和终点，画出线段
+  // 起点
+  var ax = 50
+  var ay = 20
+  // 终点
+  var bx = 300
+  var by = 187
+  // 宽高
+  var dx = Math.abs(ax - bx)
+  var dy = Math.abs(ay - by)
+  // 如果更贴近x轴
+  if (dx > dy){
+    var y = ay
+    var yy = 0
+    for (var x = ax; x <= bx; x++){ 
+    yy += dy
+    if (yy > dx){ 
+      y++
+      yy -= dx
+    }
+    dot (x, y, 'purple')
+  }
+  }else{ //如果更贴近y轴
+    var x = ax
+    var xx = 0
+    for (var y = ay; y <= by; y++){ 
+    xx += dx
+    if (xx > dy){ 
+      x++
+      xx -= dx=y
+    }
+    dot (x, y, 'purple')
+  }
+  }
+
+  //画出rgb色彩空间的某一面
+  for (var y = 1 ; y <= 256 ; y++){
+    for (var x = 1 ; x <= 256 ; x++){
+      var color = 'rgb(' + x  +',255,' + y + ')'
+      dot (x / 2 , y / 2 + 180, color)
+    }
+  }
+
+  //画一个【大小合适】的sin(x)的图像
+  for (var x = 0; x < 300; x++) {
+    var y = 8 * Math.sin(x / 9)
+    dot(x, y + 10, 'purple')
+  }
+
+  //画一个个空心的圆，半径50
+  var r = 50
+  for (var x = 0; x <= r * Math.sqrt(2) / 2 ; x++){   
+    var y = Math.sqrt(r * r - x * x)
+    dot ( x + 200 , y + 200 , 'red')
+    dot ( -x + 200 , y + 200 , 'red')
+    dot ( x + 200 , -y + 200 , 'red')
+    dot ( -x + 200 , -y + 200 , 'red')
+    dot ( -y + 200 , -x + 200 , 'red')
+    dot ( -y + 200 , x + 200 , 'red')
+    dot ( y + 200 , x + 200 , 'red')
+    dot ( y + 200 , -x + 200 , 'red')
+  }
+
+  //画一个个空心的圆，半径200
+  var r = 200
+  var y = r
+  var x = 0
+  while ( x <= y){
+    dot ( x + 200 , y + 200 , 'red')
+    dot ( -x + 200 , y + 200 , 'red')
+    dot ( x + 200 , -y + 200 , 'red')
+    dot ( -x + 200 , -y + 200 , 'red')
+    dot ( -y + 200 , -x + 200 , 'red')
+    dot ( -y + 200 , x + 200 , 'red')
+    dot ( y + 200 , x + 200 , 'red')
+    dot ( y + 200 , -x + 200 , 'red')
+    x++
+    var d1 = x * x + y * y
+    var d2 = x * x + (y - 1) * (y - 1)
+    if (Math.abs(d1 - r * r) > Math.abs(d2 - r * r)){
+      y--
+    }
+  }
+</script>
+</html>

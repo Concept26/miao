@@ -27,8 +27,8 @@ var concept26 = {
   difference: function (arry, ...values) {  
     let diff = [], map = {}, result = []
     diff.push(...values)
-    diff = diff.flat()
-    for (let i = 0; i < diff.length; i++) {
+    diff = diff.flat()  // 展开数组中的数组
+    for (let i = 0; i < diff.length; i++) { // 用 map 记录数组中出现过的数字
       if (!(diff[i] in map)) {
         map[diff[i]] = 1
       }
@@ -61,7 +61,7 @@ var concept26 = {
   
   // 使用 value 值来填充（替换） array，从start位置开始, 到end位置结束（但不包含end位置）
   fill: function (array, value, start = 0, end) { 
-    if (!end && !(end == 0)) end = array.length
+    if (!end && !(end == 0)) end = array.length  // 设置end默认值
     for (let i = start; i < end; i++) {
       array[i] = value
     }
@@ -80,6 +80,76 @@ var concept26 = {
       result.push(arry[i])
     }
     return result
-  }
+  },
 
+  // 搜索数组下标
+  findIndex: function (arry, predicate, formIndex = 0) {
+    if (Array.isArray(predicate)) {
+      for (let i = formIndex; i < arry.length; i++) {
+        for (let j = 0; j < predicate.length; j++) {
+          if (predicate[j] in arry[i]) {
+            if (predicate[j + 1] == arry[i][predicate[j]]) return i
+          }
+          else break
+        }
+      }
+    } else if (typeof predicate == 'string'){
+      for (let i = formIndex; i < arry.length; i++) {
+        if (predicate in arry[i]) {
+          if (arry[i][predicate]) return i
+        }
+      }
+    } else if (typeof predicate == 'object') {
+      for (let i = formIndex; i < arry.length; i++) {
+        let flag = true, each = arry[i]
+        for (let key in predicate) {
+          if (key in each && predicate[key] == each[key]) {}
+          else flag = false
+        }
+        if (flag) return i
+      }
+    } else {
+      for (let i = formIndex; i < arry.length; i++) {
+        if (predicate(arry[i])) return i
+      } 
+    }
+    
+  return -1
+  },
+
+  // 反向搜索数组下标
+  findLastIndex: function (arry, predicate, formIndex) {
+    if (!formIndex && !(formIndex == 0)) formIndex = arry.length - 1 // 设置formIndex默认值
+    if (Array.isArray(predicate)) {
+      for (let i = formIndex; i >= 0; i--) {
+        for (let j = 0; j < predicate.length; j++) {
+          if (predicate[j] in arry[i]) {
+            if (predicate[j + 1] == arry[i][predicate[j]]) return i
+          }
+          else break
+        }
+      }
+    } else if (typeof predicate == 'string') {
+      for (let i = formIndex; i >= 0; i--) {
+        if (predicate in arry[i]) {
+          if (arry[i][predicate]) return i
+        }
+      }
+    } else if (typeof predicate == 'object') {
+      for (let i = formIndex; i >= 0; i--) {
+        let flag = true, each = arry[i]
+        for (let key in predicate) {
+          if (key in each && predicate[key] == each[key]) {}
+          else flag = false
+        }
+        if (flag) return i
+      }
+    } else {
+      for (let i = formIndex; i >= 0; i--) {
+        if (predicate(arry[i])) return i
+      } 
+    }
+  return -1
+  
+  }
 }

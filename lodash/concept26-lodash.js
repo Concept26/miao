@@ -286,5 +286,244 @@ var concept26 = {
       array[j] = temp
     }
     return array
+  },
+
+  //通过 predicate（断言函数） 检查 collection（集合）中的 所有 元素是否都返回真值
+  every: function (collection, predicate) {
+    if (Array.isArray(predicate)) {
+      for (let i = 0; i < collection.length; i++) {
+        let each = collection[i]
+        if (each[predicate[0]] != predicate[1]) return false
+      }
+    } else if (typeof predicate == 'string') {
+      for (let i = 0; i < collection.length; i++) {
+        let each = collection[i]
+        if (!each[predicate]) return false
+      }
+    } else if (typeof predicate == 'object') {
+      for (let ind of collection){
+        for (let key in predicate) {
+          if (ind[key] != predicate[key]) return false
+        }
+      }
+    } else {
+      for (let each of collection) {
+        if (!predicate(each)) return false
+      }
+    }
+    return true
+  },
+
+  //通过 predicate（断言函数） 检查collection（集合）中的元素是否存在 任意 truthy（真值）的元素
+  some: function (collection, predicate) {
+    if (Array.isArray(predicate)) {
+      for (let i = 0; i < collection.length; i++) {
+        let each = collection[i]
+        if (each[predicate[0]] == predicate[1]) return true
+      }
+    } else if (typeof predicate == 'string') {
+      for (let i = 0; i < collection.length; i++) {
+        let each = collection[i]
+        if (each[predicate]) return true
+      }
+    } else if (typeof predicate == 'object') {
+      for (let ind of collection){
+        let flag = true
+        for (let key in predicate) {
+          if (ind[key] != predicate[key]) flag = false
+        }
+        if (flag) return true
+      }
+    } else {
+      for (let each of collection) {
+        if (predicate(each)) return true
+      }
+    }
+    return false
+  },
+
+  //根据 precision（精度） 向下舍入 number
+  floor: function (number, precision = 0) {
+    let digit = 10 ** (-precision)
+    let minus = number % digit
+    return number - minus
+  },
+
+  //创建一个组成对象，key（键）是经过 iteratee（迭代函数） 执行处理collection中每个元素后返回的结果
+  countBy: function (collection, iteratee) {
+    let ary = [], result = {}
+    if (typeof iteratee == 'string') {
+      for (let num of collection) {
+        let val = num[iteratee]
+        if (result[val]) {
+          result[val]++
+        } else result[val] = 1
+      }
+    } else if (typeof iteratee == 'function'){
+      for (let num of collection) {
+        let val = iteratee(num)
+        if (result[val]) {
+          result[val]++
+        } else result[val] = 1
+      }
+    }
+    return result
+  },
+
+  //创建一个对象，key 是 iteratee 遍历 collection(集合) 中的每个元素返回的结果。
+  groupBy: function (collection, iteratee) {
+    let ary = [], result = {}
+    if (typeof iteratee == 'string') {
+      for (let num of collection) {
+        let val = num[iteratee]
+        if (result[val]) {
+          result[val].push(num)
+        } else result[val] = [num]
+      }
+    } else if (typeof iteratee == 'function') {
+      for (let num of collection) {
+        let val = iteratee(num)
+        if (result[val]) {
+          result[val].push(num)
+        } else result[val] = [num]
+      }
+    }
+    return result
+  },
+
+  //创建一个对象组成， key（键） 是 collection（集合）中的每个元素经过 iteratee（迭代函数） 处理后返回的结果
+  keyBy: function (collection, iteratee) {
+    let result = {}
+    if (typeof iteratee == 'string') {
+      for (let num of collection) {
+        let val = num[iteratee]
+        if (result[val]) {
+          result[val] = num
+        } else result[val] = num
+      }
+    } else if (typeof iteratee == 'function') {
+      for (let num of collection) {
+        let val = iteratee(num)
+        if (result[val]) {
+          result[val] = num
+        } else result[val] = num
+      }
+    }
+    return result
+  },
+
+  //调用 iteratee 遍历 collection(集合) 中的每个元素
+  forEach: function (collection, iteratee) {
+    if (Array.isArray(collection)) {
+      for (let num of collection) {
+        iteratee(num)
+      }
+    } else if (typeof collection == 'object') {
+      for (let key in collection) {
+        let val = collection[key]
+        iteratee(val, key)
+      }
+    }
+    return collection
+  },
+
+  //遍历 collection（集合）元素，返回 predicate（断言函数）返回真值 的所有元素的数组
+  filter: function (collection, predicate) {
+    let result = []
+    for (let num of collection) {
+      if (Array.isArray(predicate)) {
+        if (num[predicate[0]] == predicate[1]) {
+          result.push(num)
+        }
+      }
+      if (typeof predicate == 'string') {
+        if (num[predicate]) result.push(num)
+      }
+      if (typeof predicate == 'function') {
+        if (predicate(num)) result.push(num)
+      }
+      if (typeof predicate == 'object') {
+        let flag = true
+        for (let key in predicate) {
+          if (num[key] != predicate[key]) flag = false
+        }
+        if (flag) result.push(num)
+      }
+    }
+    return result
+  },
+
+  //
+  reduce: function(collection, iteratee, accumulator) {
+    let start = 0
+    if (!accumulator && !(accumulator == 0)) {
+        accumulator = collection[0]
+        start = 1
+    }
+
+    if (Array.isArray(collection)) {
+        for (let i = start; i < collection.length; i++) {
+            accumulator = iteratee(accumulator, collection[i])
+        }
+    } else {
+        for (let key in collection) {
+            accumulator = iteratee(accumulator, collection[key], key)
+        }
+    }
+    return accumulator
+  },
+
+  //
+  reduceRight: function (collection, iteratee, accumulator) {
+    let start = collection.length - 1
+    if (accumulator == undefined) {
+        accumulator = collection[start]
+        start -= 1
+    }
+    for (let i = start; i >=0 ; i--) {
+      accumulator = iteratee(accumulator, collection[i])
+    }
+    return accumulator
+  },
+
+  //返回collection（集合）的长度，如果集合是类数组或字符串，返回其 length ；如果集合是对象，返回其可枚举属性的个数。
+  size: function (collection) {
+    if (typeof collection == 'object' && !Arrray.isArray(collection)) {
+      let count = 0
+      for (let key in collection) {
+        count++
+      }
+      return count
+    }
+    return collection.length
+  },
+
+  //创建一个元素数组。 以 iteratee 处理的结果升序排序。
+  sortBy : function (collection, iteratees) {
+    let result = collection.slice()
+    let fun = iteratees[0] 
+    let ind = iteratees.length - 1
+    result.sort(function (a1, a2) {
+      if (typeof iteratees[0] == 'string') {
+      var s1 = a1[iteratees[ind]] , s2 = a2[iteratees[ind]]
+      } else {
+      var s1 = fun(a1), s2 = fun(a2)
+      }
+      if (s1 < s2) {  // 字符串进行大于(小于)比较时，会根据第一个不同的字符的ASCII值码进行比较
+          return -1;
+      }
+      if (s1 > s2) {
+          return 1;
+      }
+      return 0;
+    })
+    return result
+  },
+
+  // 从collection（集合）中获得一个随机元素。
+  sample: function (collection) {
+    let min = 0, max = collection.length - 1
+    let i = Math.floor(Math.random() * (max - min + 1)) + min
+    return collection[i]
   }
 }

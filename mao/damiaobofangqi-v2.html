@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://10.3.3.3:88/statics/miao-player.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>大喵播放器</title>
+  <style>
+    body,html {
+      margin: 0;
+      height: 100%;
+    }
+    video {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      margin: auto;
+    }
+    main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .video-wrap {
+      flex-grow: 1;
+      height: calc(100% - 32px);
+      display: flex;
+      align-items: center;
+    }
+    .player {
+      display: flex;
+      height: 100%;
+    }
+    .playlist-wrap {
+      width: 200px;
+      height: 100%;
+      flex: none;
+      display: flex;
+      border-right: 1px solid;
+      flex-direction: column;
+    }
+    h5 {
+      margin: 0;
+    }
+    button label {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      margin: -2px -7px;
+      padding: 2px 7px;
+    }
+    /* .btn {
+      padding: 3px 5px;
+      border-radius: .3em;
+      background-color: #1e1e1e;
+      color: white;
+      border: 1px solid;
+      box-sizing: border-box;
+      margin: 0;
+      font-size: 16px;
+      cursor: pointer;
+    } */
+    /* .btn:hover {
+      background-color: #272727;
+    }
+    .btn:active {
+      background-color: #181818;
+    } */
+    .playlist {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      overflow-x: hidden;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+    .playlist li {
+      white-space: nowrap;
+      font-size: 12px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      cursor: default;
+      user-select: none;
+    }
+    .playlist li:hover {
+      background-color: pink;
+    }
+    .playlist li.active {
+      background-color: pink;
+    }
+
+    .menu {
+      font-size: 14px;
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+    }
+    .menu * {
+      font-size: inherit;
+    }
+    .menu input[type="range"] {
+      width: 60px;
+      cursor: pointer;
+    }
+    body {
+      -webkit-app-region: drag;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="player">
+    <div class="playlist-wrap" style="display: none;">
+      <h5>播放列表
+        <!-- (可直接拖入视频) -->
+      </h5>
+      <ul class="playlist"></ul>
+    </div>
+    <main>
+      <div class="video-wrap">
+        <pre id="help">          欢迎使用大喵播放器，方便的倍速播放器
+            在某档位时
+              按住j或f或用鼠标点住视频可暂时性进入下一档位
+              类似于氮气😎松开后回到原档位
+            倍速速率可调
+            中键点击视频可切换全屏
+            可选播放列表
+            双击视频切换播放状态
+        </pre>
+        <video src="" controls=""></video>
+      </div>
+      <div class="menu">
+        <button class="playlist-btn">播放列表</button>
+        <button><label for="video-select">选择文件</label></button>
+        <input type="file" id="video-select" hidden="" multiple="" accept="video/*, .mkv">
+        <button class="go-fullscreen">全屏</button>
+        <button onclick="setOriginalPlay()">一档</button>
+        <button onclick="setNormalPlay()">二档</button>
+        <button onclick="setFastPlay()">三档</button>
+        <span>[[当前速率:<span style="color:red;font-weight:bold;" id="currentSpeedShow">1.5</span>]]</span>
+        <span title="按住j或f或用鼠标按住视频即可倍速播放">二档速率</span>(<span id="currentNormalSpeedShow">1.5</span>)<input type="range" id="currentNormalSpeedControl" min="1" max="4" step="0.1" value="1.5">
+        <span title="按住j或f或用鼠标按住视频即可倍速播放">三档速率</span>(<span id="currentFastSpeedShow">2.3</span>)<input type="range" id="currentFastSpeedControl" min="1" max="4" step="0.1" value="2">
+        <span style="margin-left: auto; display: none;" class="filename"></span>
+      </div>
+    </main>
+  </div>
+  <script>
+    var fileSelect = document.querySelector('[type="file"]')
+    var video = document.querySelector('video')
+    var filename = document.querySelector('.filename')
+    var togglePlaylistBtn = document.querySelector('.playlist-btn')
+    var playlistWrap = document.querySelector('.playlist-wrap')
+    var fullscreenBtn = document.querySelector('.go-fullscreen')
+    var playlist = document.querySelector('.playlist')
+    var currentNormalSpeedControl = document.querySelector('#currentNormalSpeedControl')
+    var currentFastSpeedControl = document.querySelector('#currentFastSpeedControl')
+    var currentSpeedShow = document.querySelector('#currentSpeedShow')
+
+    var playlistSelected = false // 是否已选择视频文件，如果选择，关闭/刷新网页时会有提示
+
+
+
+    // 根据保存的状态隐藏播放列表
+    if (localStorage.showPlaylist == 'false') {
+      playlistWrap.style.display = 'none'
+    }
+
+
+    // 如果已经选择文件，关闭时会提示，省得一不小心刷新后需要重新选择文件
+    window.onbeforeunload = function() {
+      if (playlistSelected) {
+        return '已选择播放列表，刷新将需要重新选择要播放的文件'
+      }
+    }
+
+    fileSelect.onchange = function(e) {
+      help.remove()
+      playlistSelected = true
+      var files = Array.from(fileSelect.files).sort().reverse()
+      video.src = URL.createObjectURL(files[0])
+      video.play()
+      buttonUp()
+      document.title = files[0].name
+      showPlaylist(fileSelect.files)
+      playlist.firstElementChild.classList.add('active')
+    }
+
+    function showPlaylist(files) {
+      // showPlaylistPane()
+      files = Array.from(files)
+      files.sort().reverse()
+      for (var file of files) {
+        var li = document.createElement('li')
+        li.title = li.textContent = file.name
+        li.file = file
+        playlist.append(li)
+      }
+    }
+
+    function togglePlaylistPane() {
+      if (playlistWrap.style.display == 'none') {
+        playlistWrap.style.display = 'flex'
+        localStorage.showPlaylist = 'true'
+      } else {
+        playlistWrap.style.display = 'none'
+        localStorage.showPlaylist = 'false'
+      }
+    }
+    function showPlaylistPane() {
+      playlistWrap.style.display = 'flex'
+    }
+
+    playlist.addEventListener('dblclick', function(e) {
+      if (e.target.matches('li')) {
+        URL.revokeObjectURL(video.src)
+        var file = e.target.file
+        video.src = URL.createObjectURL(file)
+        video.play()
+        buttonUp()
+        document.title = file.name
+        document.querySelector('ul.playlist .active').classList.remove('active')
+        e.target.classList.add('active')
+      }
+    })
+
+    fullscreenBtn.onclick = function() {
+      video.requestFullscreen()
+    }
+    togglePlaylistBtn.onclick = function() {
+      togglePlaylistPane()
+    }
+
+
+    // 不按各种键时的速度模式
+    var speedMode = localStorage.playState ?? 'ORIGINAL' // 'NORMAL' | 'FAST'
+    // var tempSpeedMode = null // 按下键以后的播放状态
+
+    currentNormalSpeedControl.value = parseFloat(localStorage.currentNormalSpeed) || 1.5
+    currentFastSpeedControl.value = parseFloat(localStorage.currentFastSpeed) || 1.5
+    currentNormalSpeedShow.textContent = Number(currentNormalSpeedControl.value).toFixed(1)
+    currentFastSpeedShow.textContent = Number(currentFastSpeedControl.value).toFixed(1)
+
+    currentNormalSpeedControl.oninput = function(e) {
+      var speed = Number(e.target.value).toFixed(1)
+      currentNormalSpeedShow.textContent = speed
+      localStorage.currentNormalSpeed = speed
+      if (speedMode == 'NORMAL') {
+        normalPlay()
+      }
+    }
+    currentFastSpeedControl.oninput = function(e) {
+      var speed = Number(e.target.value).toFixed(1)
+      currentFastSpeedShow.textContent = speed
+      localStorage.currentFastSpeed = speed
+      if (speedMode == 'FAST') {
+        fastPlay()
+      }
+    }
+
+    function originalPlay() {
+      currentSpeedShow.textContent = video.playbackRate = '1.0'
+    }
+    function normalPlay() {
+      currentSpeedShow.textContent = video.playbackRate = Number(currentNormalSpeedControl.value).toFixed(1)
+    }
+    function fastPlay() {
+      currentSpeedShow.textContent = video.playbackRate = Number(currentFastSpeedControl.value).toFixed(1)
+    }
+
+    function setOriginalPlay() {
+      localStorage.playState = speedMode = 'ORIGINAL'
+      originalPlay()
+    }
+    function setNormalPlay() {
+      localStorage.playState = speedMode = 'NORMAL'
+      normalPlay()
+    }
+    function setFastPlay() {
+      localStorage.playState = speedMode = 'FAST'
+      fastPlay()
+    }
+
+    buttonUp() // 初始状态由speedMode决定，而speedMode从localStorage里读出来
+
+    function buttonDown() {
+      if (speedMode == 'ORIGINAL') {
+        normalPlay()
+      } else if (speedMode == 'NORMAL') {
+        fastPlay()
+      }
+    }
+    function buttonUp() {
+      if (speedMode == 'NORMAL') {
+        normalPlay()
+      } else if (speedMode == 'FAST') {
+        fastPlay()
+      } else if (speedMode == 'ORIGINAL') {
+        originalPlay()
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key == 'j' || e.key == 'f') {
+        buttonDown()
+      }
+      // if (e.key == 'ArrowLeft' || e.key == 'a') {
+      //   e.preventDefault()
+      //   video.currentTime -= 2
+      // }
+      // if (e.key == 'ArrowRight' || e.key == 'd') {
+      //   e.preventDefault()
+      //   video.currentTime += 2
+      // }
+      if (e.key == 'ArrowLeft') {
+        e.preventDefault()
+        video.currentTime -= 1
+      }
+      if (e.key == 'ArrowRight') {
+        e.preventDefault()
+        video.currentTime += 1
+      }
+      if (e.keyCode == 188) {
+        e.preventDefault()
+        video.currentTime -= 3
+      }
+      if (e.keyCode == 190) {
+        e.preventDefault()
+        video.currentTime += 3
+      }
+    })
+    document.addEventListener('keyup', function(e) {
+      if (e.key == 'j' || e.key == 'f') {
+        buttonUp()
+      }
+    })
+
+    // 视频双击暂停
+    video.addEventListener('dblclick', function(e) {
+      console.log('dblclick')
+      if (video.paused) {
+        video.play()
+      } else {
+        video.pause()
+      }
+    })
+
+    // // 阻止点击视频暂停
+    // video.addEventListener('click', function(e) {
+    //   e.preventDefault()
+    // })
+
+    var isInFullscreen = false
+    video.addEventListener('mousedown', function(e) {
+      if (e.which == 1) { // 左键，快放
+        buttonDown()
+      } else if (e.which == 2) { // 中键，切换全屏状态，所以需要一个变量记录全屏状态
+        e.preventDefault()
+        if (!isInFullscreen) {
+          video.requestFullscreen()
+        } else {
+          document.exitFullscreen()
+        }
+        isInFullscreen = !isInFullscreen
+      }
+    })
+    video.addEventListener('mouseup', function(e) {
+      if (e.which == 1) {
+        buttonUp()
+      }
+    })
+
+    // 处于弹窗状态时可拖动窗口
+    window.addEventListener('mousedown', function(e) {
+      if (e.which == 1 && e.target.matches(':not(input):not(button,button *)')) {
+        var x = e.screenX
+        var y = e.screenY
+
+        var left = window.screenLeft
+        var top = window.screenTop
+
+        function move(e) {
+          if (e.which == 0){
+            window.removeEventListener('mousemove', move)
+          }
+          var dx = e.screenX - x
+          var dy = e.screenY - y
+          if (dx * dx + dy * dy > 10) { // 移动距离大于一定量后就不加速
+            buttonUp()
+          }
+          window.moveTo(left + dx, top + dy)
+        }
+        window.addEventListener('mousemove', move)
+      }
+    })
+  </script>
+
+
+</body><style id="stylus-1" type="text/css" class="stylus">main {
+    height: 100%;
+}
+
+#live iframe{
+  border: 1px solid #cccccc;
+  padding-top: 0;
+  margin-top: 35px;
+  height: calc(100% - 36px);
+}
+
+.panel .label{
+  min-width: 295px;
+}
+
+
+
+@media only screen and (max-width: 735px) {
+  .menu.inline-menu{
+    zoom: 0.5;
+    width: initial;
+  }
+  #live iframe{
+    margin-top: 0px;
+    height: 100%;
+  }
+  #bin {
+    top: 21px;
+  }
+  #control #panels > a.button {
+    height: 21px;
+    line-height: 17px;
+  }
+  #control{
+    height: 20px;
+  }
+}
+
+@media only screen and (max-width: 735px){
+  #source{
+    bottom: 0;
+  }
+}</style></html>
